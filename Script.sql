@@ -17,7 +17,7 @@ PRIMARY KEY(StoreID));
 CREATE TABLE shoppingCart.Users
 (UserID INT NOT NULL AUTO_INCREMENT,
 UserName CHAR(50) NOT NULL,
-UserPassword CHAR(50) NOT NULL,
+UserPassword CHAR(255) NOT NULL,
 UserEmail CHAR(50) NOT NULL,
 UserPhone CHAR(50) NOT NULL,
 UserGender CHAR(1) NOT NULL,

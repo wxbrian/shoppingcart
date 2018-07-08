@@ -9,65 +9,62 @@
  	if($_SERVER["REQUEST_METHOD"] == "POST") {
 
  		if ($_POST['formSubmit'] == "Sign In") {
-		 	$useremail =	$_POST['loginUser'];
+		 	$loginUser =	$_POST['loginUser'];
 			$userpassword =	$_POST['loginPass'];
 
-			$query = "SELECT * FROM Users WHERE UserEmail = '$useremail' AND UserPassword = '$userpassword'";
+			$query = "SELECT * FROM Users WHERE UserEmail = '$loginUser' OR UserName = '$loginUser'";
 
 			$login = mysqli_query($mysqli, $query);
 
 			if($login){
-			$row = mysqli_fetch_array($login, MYSQLI_ASSOC);
+				$row = mysqli_fetch_array($login, MYSQLI_ASSOC);
+				$count = mysqli_num_rows($login);
 
-			$count = mysqli_num_rows($login);
+				if (password_verify($userpassword, $row['UserPassword'])) {
+				     $_SESSION['login_user'] = $loginUser;
+		         	header("location: cart.php");
+				} else {
+				    $msg = mysqli_error($mysqli);
+		         	// echo "<script>document.getElementById('invalidLogin').innerHTML = 'User';</script>";
+		         	$error = 'Check credentials' . $query;
+				}
+			}
+		} else if ($_POST['formSubmit'] == "Sign Up") {
+				$UserName    =	$_POST['signUpUser'];
+				$UserPassword =	password_hash($_POST['signUpPass'], PASSWORD_DEFAULT);
+				$UserEmail   =	$_POST['signUpEmail'];
+				$UserPhone   =	$_POST['signUpPhone'];
+				$UserGender  =	$_POST['signUpGender'];
+				$UserDOB	 =	$_POST['signUpDOB'];
+				$UserStreet  =	$_POST['route'];
+				$UserNumber  =	$_POST['street_number'];
+				$UserZIP     =	$_POST['postal_code'];
+				$UserCity    =	$_POST['locality'];
+				$UserState   =	$_POST['administrative_area_level_1'];
+				$UserCountry =	$_POST['country'];
 
-				
-	     	 if($count > 1) {
-	         $_SESSION['login_user'] = $useremail;
-	         	header("location: cart.php");
-	         	} else {
-	         		$msg = mysqli_error($mysqli);
-	         	// echo "<script>document.getElementById('invalidLogin').innerHTML = 'User';</script>";
-	         	$error = 'Check credentials' . $query;
-	         	}
-		   	 }
-	 		} else if ($_POST['formSubmit'] == "Sign Up") {
-	 				$UserName    =	$_POST['signUpUser'];
-	 				$UserPassword =	$_POST['signUpPass'];
-	 				$UserEmail   =	$_POST['signUpEmail'];
-	 				$UserPhone   =	$_POST['signUpPhone'];
-	 				$UserGender  =	$_POST['signUpGender'];
-	 				$UserDOB	 =	$_POST['signUpDOB'];
-	 				$UserStreet  =	$_POST['route'];
-	 				$UserNumber  =	$_POST['street_number'];
-	 				$UserZIP     =	$_POST['postal_code'];
-	 				$UserCity    =	$_POST['locality'];
-	 				$UserState   =	$_POST['administrative_area_level_1'];
-	 				$UserCountry =	$_POST['country'];
+				$query = "INSERT INTO shoppingCart.Users 
+				(UserName, UserPassword, UserEmail, UserPhone, UserGender, UserDOB, UserStreet, UserNumber, UserZIP, UserCity, UserState, UserCountry) 
+				VALUES 
+				('$UserName', '$UserPassword', '$UserEmail', '$UserPhone', '$UserGender', '$UserDOB', '$UserStreet', '$UserNumber', '$UserZIP', '$UserCity', '$UserState', '$UserCountry');";
 
-	 				$query = "INSERT INTO shoppingCart.Users 
-	 				(UserName, UserPassword, UserEmail, UserPhone, UserGender, UserDOB, UserStreet, UserNumber, UserZIP, UserCity, UserState, UserCountry) 
-	 				VALUES 
-	 				('$UserName', '$UserPassword', '$UserEmail', '$UserPhone', '$UserGender', '$UserDOB', '$UserStreet', '$UserNumber', '$UserZIP', '$UserCity', '$UserState', '$UserCountry');";
+			$register = mysqli_query($mysqli, $query);
 
-					$register = mysqli_query($mysqli, $query);
+				if($register){
+					$error = 'Registered succesfully';
+				} else { $msg = mysqli_error($mysqli);
 
-						if($register){
-							$error = 'Registered succesfully';
-						} else { $msg = mysqli_error($mysqli);
+					$error = 'Error: ' . $msg;
+					echo "<script>document.getElementById('loginUser').value = 'User';</script>";
 
-							$error = 'Error: ' . $msg;
-							echo "<script>document.getElementById('loginUser').value = 'User';</script>";
+					}
+		   } else if ($_POST['formSubmit'] == "Proceed") {
 
-							}
- 			   } else if ($_POST['formSubmit'] == "Proceed") {
+		   		$emailNoUser = $_POST['emailNoUser'];
 
- 			   		$emailNoUser = $_POST['emailNoUser'];
-
-					$_SESSION['login_user'] = $emailNoUser;
-		         	header("location: ./cart.php");
- 			   }
-
+			$_SESSION['login_user'] = $emailNoUser;
+	     	header("location: ./cart.php");
+		   }
 	}
 ?>
 

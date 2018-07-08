@@ -2,6 +2,6 @@
 // 	$('#emailModal').modal();
 // })();
 
-$( "#emailModalOpen" ).on( "click", function() {
+$("#emailModalOpen" ).on( "click", function() {
   $('#emailModal').modal();
 });
