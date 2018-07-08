@@ -1,10 +1,9 @@
 <?php 
-	include 'includes/header.html';
-	include 'controller/db-connect.php';
-
 	session_start();
 
 	$error = '';
+
+	include 'controller/db-connect.php';
 
  	if($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -30,47 +29,60 @@
 				}
 			}
 		} else if ($_POST['formSubmit'] == "Sign Up") {
-				$UserName    =	$_POST['signUpUser'];
-				$UserPassword =	password_hash($_POST['signUpPass'], PASSWORD_DEFAULT);
-				$UserEmail   =	$_POST['signUpEmail'];
-				$UserPhone   =	$_POST['signUpPhone'];
-				$UserGender  =	$_POST['signUpGender'];
-				$UserDOB	 =	$_POST['signUpDOB'];
-				$UserStreet  =	$_POST['route'];
-				$UserNumber  =	$_POST['street_number'];
-				$UserZIP     =	$_POST['postal_code'];
-				$UserCity    =	$_POST['locality'];
-				$UserState   =	$_POST['administrative_area_level_1'];
-				$UserCountry =	$_POST['country'];
+			$UserName    =	$_POST['signUpUser'];
+			$UserPassword =	password_hash($_POST['signUpPass'], PASSWORD_DEFAULT);
+			$UserEmail   =	$_POST['signUpEmail'];
+			$UserPhone   =	$_POST['signUpPhone'];
+			$UserGender  =	$_POST['signUpGender'];
+			$UserDOB	 =	$_POST['signUpDOB'];
+			$UserStreet  =	$_POST['route'];
+			$UserNumber  =	$_POST['street_number'];
+			$UserZIP     =	$_POST['postal_code'];
+			$UserCity    =	$_POST['locality'];
+			$UserState   =	$_POST['administrative_area_level_1'];
+			$UserCountry =	$_POST['country'];
 
-				$query = "INSERT INTO shoppingCart.Users 
-				(UserName, UserPassword, UserEmail, UserPhone, UserGender, UserDOB, UserStreet, UserNumber, UserZIP, UserCity, UserState, UserCountry) 
-				VALUES 
-				('$UserName', '$UserPassword', '$UserEmail', '$UserPhone', '$UserGender', '$UserDOB', '$UserStreet', '$UserNumber', '$UserZIP', '$UserCity', '$UserState', '$UserCountry');";
+			$query = "INSERT INTO shoppingCart.Users 
+			(UserName, UserPassword, UserEmail, UserPhone, UserGender, UserDOB, UserStreet, UserNumber, UserZIP, UserCity, UserState, UserCountry) 
+			VALUES 
+			('$UserName', '$UserPassword', '$UserEmail', '$UserPhone', '$UserGender', '$UserDOB', '$UserStreet', '$UserNumber', '$UserZIP', '$UserCity', '$UserState', '$UserCountry');";
 
 			$register = mysqli_query($mysqli, $query);
 
-				if($register){
-					$error = 'Registered succesfully';
-				} else { $msg = mysqli_error($mysqli);
+			if($register){
+				$error = 'Registered succesfully';
+			} else { $msg = mysqli_error($mysqli);
 
-					$error = 'Error: ' . $msg;
-					echo "<script>document.getElementById('loginUser').value = 'User';</script>";
+				$error = 'Error: ' . $msg;
+				echo "<script>document.getElementById('loginUser').value = 'User';</script>";
+			}
 
-					}
-		   } else if ($_POST['formSubmit'] == "Proceed") {
+		} else if ($_POST['formSubmit'] == "Proceed") {
 
 		   		$emailNoUser = $_POST['emailNoUser'];
 
 			$_SESSION['login_user'] = $emailNoUser;
 	     	header("location: ./cart.php");
-		   }
+
+		} 
+	} else if($_SERVER["REQUEST_METHOD"] == "GET") {
+		if (isset($_GET['argument']) && $_GET["argument"]=='logOut'){		   
+		    session_unset();
+		    session_destroy();
+		    $host  = $_SERVER['HTTP_HOST'];
+		    $link = "http://$host/index.php";
+		    echo $link;
+		    exit;
+		}
 	}
 ?>
 
+
+
 <!-- Loading login Modal -->
 <?php
-  include "./views/modalLogin.html";
+	include 'includes/header.html';
+	include "./views/modalLogin.html";
 ?>
 
 

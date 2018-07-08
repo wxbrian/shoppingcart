@@ -81,6 +81,7 @@ function pre_r($array){
             </div>
             <div class="bp-header__main">
                 <h1 class="bp-header__title"><?= $_SESSION['login_user']; ?></h1>
+                <button id="logout" class="button"> Logout </button>
             </div>
         </header>
     
