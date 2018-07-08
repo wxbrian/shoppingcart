@@ -90,8 +90,8 @@ function pre_r($array){
             <button class="action action--close" aria-label="Close Menu"><span class="icon icon--cross"></span></button>
             <div class="menu__wrap">
                 <ul data-menu="main" class="menu__level" tabindex="-1" role="menu" aria-label="All">
-                    <li><a class="menu__link cart" href="#">Cart</a></li>
-                    <li><a class="menu__link stores" href="#">Stores</a></li>
+                    <li><a class="menu__link cart" href="#" id="cartLink">Cart</a></li>
+                    <li><a class="menu__link stores" href="#" id="storesLink">Stores</a></li>
                 </ul>
             </div>
         </nav>
@@ -173,7 +173,7 @@ function pre_r($array){
                 if (isset($_SESSION['shopping_cart'])):
                 if (count($_SESSION['shopping_cart']) > 0):
              ?>
-                <a href="#" class="button">Checkout</a>
+                <a href="./checkout.php" class="button">Checkout</a>
              <?php endif; endif; ?>
             </td>
         </tr>
