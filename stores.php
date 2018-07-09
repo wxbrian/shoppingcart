@@ -11,7 +11,9 @@
 	    $bus = array(
 	        'lat' => $row['StoreLat'],
 	        'lng' => $row['StoreLng'],
-	        'storeID' => $row['StoreID']
+	        'storeID' => $row['StoreID'],
+	        'storeAddress' => $row['StoreStreet'] . ', ' . $row['StoreNumber'] . ' - ' . $row['StoreCity'],
+	        'storeName' => $row['StoreName']
 	    );
 	    array_push($json, $bus);
 	}

@@ -6,6 +6,9 @@ function initMap() {
   
   //o mapa inicia centralizado em quebec
   var quebec = {lat: 43.734087,  lng: -79.403929};
+
+  var storeAddress = $("#storeAddress");
+  var storeAddressID = $("#storeAddressID");
   
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 10, // pensa nesse zoom inicial dependendo dos enderecos que tu for usar
@@ -54,9 +57,13 @@ function addMarker(location) {
     map: map    
   });
   marker.id = location.storeID;
+  marker.address = location.storeAddress;
+  marker.storeName = location.storeName;
 
   marker.addListener('click', function() {
-    console.info(marker.id);
+    // console.info(marker.id);
+    storeAddress.value = marker.address;
+    storeAddressID.value = marker.id;
   });
   markers.push(marker);
 }

@@ -101,6 +101,11 @@
 	                    <input maxlength="200" type="text" id="address" required="required" class="form-control" placeholder="Enter Your Address" />
 						<?php endif ?>
 	                </div>
+	                <div class="form-group">
+	                    <label class="control-label">Store</label>	
+						<input disabled maxlength="200" type="text" id="storeAddress" required="required" class="form-control" placeholder="choose the store from the map bellow" />						
+						<input hidden type="text" id="storeAddressID" required="required" class="form-control"/>						
+	                </div>
 
 	                <div id="map"></div>
 	                <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
