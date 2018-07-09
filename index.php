@@ -72,7 +72,7 @@
 		    session_unset();
 		    session_destroy();
 		    $host  = $_SERVER['HTTP_HOST'];
-		    $link = "http://$host/index.php";
+		    $link = "http://$host/shoppingcart/index.php";
 		    echo $link;
 		    exit;
 		}

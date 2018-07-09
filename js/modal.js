@@ -11,7 +11,7 @@ $('#logout').on('click', function() {
     $.ajax({
 	    url: './index.php?argument=logOut',
 	    success: function(data){
-	        window.location.href = data + '/shoppingcart' ;
+	        window.location.href = data;
 	    }
 	});
 });
