@@ -2,61 +2,61 @@ var map;
 var markers = [];
 
 // seu array com latitude e longitudes, se o seu backend so tem endereco usa o geocode, eu fiz o exemplo com o text box pra te ajudar
-var pins = [
-  {lat: 46.815887, lng: -71.216729}, //Quebec
-  {lat: 45.548975, lng: -73.566751}, //Montreal
-  {lat: 43.675696, lng: -79.346677}, // Toronto
-  {lat: 42.336957, lng: -83.121179}, //Detroit
-  {lat: 42.358774, lng:  -71.066478} // Boston
-];
-
 function initMap() {
   
   //o mapa inicia centralizado em quebec
-  var quebec = {lat: 44.39701635571153,  lng: -76.02096736824166};
-  
+  var quebec = {lat: 43.734087,  lng: -79.403929};
   
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 6, // pensa nesse zoom inicial dependendo dos enderecos que tu for usar
+    zoom: 10, // pensa nesse zoom inicial dependendo dos enderecos que tu for usar
     center: quebec,
     mapTypeId: 'terrain'
   });
   
   var geocoder = new google.maps.Geocoder(),
   infoWindow = new google.maps.InfoWindow;
-  
-    document.getElementById('address').addEventListener('change', function() {
-     // usa o geocoder declarado acima nessa mapa.
-    geocodeAddress(geocoder, map);
+
+  document.getElementById('address').addEventListener('change', function() {
+   // usa o geocoder declarado acima nessa mapa.
+  geocodeAddress(geocoder, map);  
+  });
+
+  $.getJSON('./stores.php', function(data) {
+    $.each(data, function(key, val) {
+      console.info(val);
+      addMarker(val);
+    });
+  });
 
   // Try HTML5 geolocation.
- if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-            addMarker(pos);            
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-    });
-  // Adds a marker at the center of the map.
-  for (var i = pins.length - 1; i >= 0; i--) {
-    addMarker(pins[i]);
-  }
+  // if (navigator.geolocation) {
+  //   navigator.geolocation.getCurrentPosition(function(position) {
+  //     var pos = {
+  //       lat: position.coords.latitude,
+  //       lng: position.coords.longitude
+  //     };
+  //     addMarker(pos);            
+  //     map.setCenter(pos);
+  //   }, function() {
+  //     handleLocationError(true, infoWindow, map.getCenter());
+  //   });
+  // } else {
+  //   // Browser doesn't support Geolocation
+  //   handleLocationError(false, infoWindow, map.getCenter());
+  // }
+
 }
 
 // Adds a marker to the map and push to the array.
 function addMarker(location) {
   var marker = new google.maps.Marker({
     position: location,
-    map: map
+    map: map    
+  });
+  marker.id = location.storeID;
+
+  marker.addListener('click', function() {
+    console.info(marker.id);
   });
   markers.push(marker);
 }

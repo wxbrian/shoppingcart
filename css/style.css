@@ -170,7 +170,8 @@ a{color:inherit;text-decoration:none}
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
 #map {
-  height: 100%;
+  height: 400px;
+  width: 100%;
 }
 /* Optional: Makes the sample page fill the window. */
 .stepwizard-step p {

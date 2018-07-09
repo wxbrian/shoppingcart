@@ -199,6 +199,7 @@
 	</div>
  </div>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV8OYMPiAXbPAvE9HEkve3-GxZFdmzD84&libraries=places&callback=initAutocomplete" async defer></script>
+  <script src="./js/addressAC.js"></script>
 <?php 
 	include 'includes/footer.html';
 ?>

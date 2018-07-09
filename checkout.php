@@ -14,14 +14,6 @@
 
 
 
-
-
-
-
-
-
-
-
 ?>
 
 <div class="container">
@@ -224,7 +216,7 @@
 <!-- end of content -->
 </div>
 <script src="js/map.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV8OYMPiAXbPAvE9HEkve3-GxZFdmzD84&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAo-8FbnM44gyFDVka3mW8apy2A1d52PRw&callback=initMap"
     async defer></script>
 
 <?php 

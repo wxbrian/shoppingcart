@@ -11,19 +11,11 @@ $('#logout').on('click', function() {
     $.ajax({
 	    url: './index.php?argument=logOut',
 	    success: function(data){
-	        window.location.href = data;
-	        console.info(data);
+	        window.location.href = data + '/shoppingcart' ;
 	    }
 	});
 });
 
-// $('#cartLink').on('click', function() {
-//   close the storesView and open cartView
-// });
-
-// $('#storesLink').on('click', function() {
-//   close the cartView and open storesView
-// });
 
 $(document).ready(function () {
 

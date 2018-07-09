@@ -12,6 +12,8 @@ StoreZIP CHAR(15) NOT NULL,
 StoreCity CHAR(30) NOT NULL,
 StoreState CHAR(10) NOT NULL,
 StoreCountry CHAR(20) NOT NULL,
+StoreLat FLOAT(10,6) NOT NULL,
+StoreLng FLOAT(10,6) NOT NULL,
 PRIMARY KEY(StoreID));
 
 CREATE TABLE shoppingCart.Users
@@ -60,11 +62,11 @@ REFERENCES ProductCatalog(id)
 );
 
 
-INSERT INTO shoppingCart.Stores (StoreName, StorePhone, StoreStreet, StoreNumber, StoreZIP, StoreCity, StoreState, StoreCountry) VALUES ('Store 1', '6479162956', 'Champagne Dr', 10, 'M3J 2C6', 'Toronto', 'ON', 'Canada');
-INSERT INTO shoppingCart.Stores (StoreName, StorePhone, StoreStreet, StoreNumber, StoreZIP, StoreCity, StoreState, StoreCountry) VALUES ('Store 2', '6479162956', 'Yonge Street', 920, 'M4W 3C7', 'Toronto', 'ON', 'Canada');
-INSERT INTO shoppingCart.Stores (StoreName, StorePhone, StoreStreet, StoreNumber, StoreZIP, StoreCity, StoreState, StoreCountry) VALUES ('Store 3', '6479162956', 'Princes` Blvd', 210, 'M6K 3C3', 'Toronto', 'ON', 'Canada');
-INSERT INTO shoppingCart.Stores (StoreName, StorePhone, StoreStreet, StoreNumber, StoreZIP, StoreCity, StoreState, StoreCountry) VALUES ('Store 4', '6479162956', 'Queen St W', 232, 'M5V 1Z6', 'Toronto', 'ON', 'Canada');
-INSERT INTO shoppingCart.Stores (StoreName, StorePhone, StoreStreet, StoreNumber, StoreZIP, StoreCity, StoreState, StoreCountry) VALUES ('Store 5', '6479162956', 'Lee Centre Dr', 38, 'M1H 3J7', 'Toronto', 'ON', 'Canada');
+INSERT INTO shoppingCart.Stores (StoreName, StorePhone, StoreStreet, StoreNumber, StoreZIP, StoreCity, StoreState, StoreCountry, StoreLat, StoreLng) VALUES ('Store 1', '6479162956', 'Champagne Dr', 10, 'M3J 2C6', 'Toronto', 'ON', 'Canada', 43.767619, -79.471416);
+INSERT INTO shoppingCart.Stores (StoreName, StorePhone, StoreStreet, StoreNumber, StoreZIP, StoreCity, StoreState, StoreCountry, StoreLat, StoreLng) VALUES ('Store 2', '6479162956', 'Yonge Street', 920, 'M4W 3C7', 'Toronto', 'ON', 'Canada', 43.648967, -79.377976);
+INSERT INTO shoppingCart.Stores (StoreName, StorePhone, StoreStreet, StoreNumber, StoreZIP, StoreCity, StoreState, StoreCountry, StoreLat, StoreLng) VALUES ('Store 3', '6479162956', 'Princes` Blvd', 210, 'M6K 3C3', 'Toronto', 'ON', 'Canada', 43.633290, -79.422589);
+INSERT INTO shoppingCart.Stores (StoreName, StorePhone, StoreStreet, StoreNumber, StoreZIP, StoreCity, StoreState, StoreCountry, StoreLat, StoreLng) VALUES ('Store 4', '6479162956', 'Queen St W', 232, 'M5V 1Z6', 'Toronto', 'ON', 'Canada', 43.650370, -79.390198);
+INSERT INTO shoppingCart.Stores (StoreName, StorePhone, StoreStreet, StoreNumber, StoreZIP, StoreCity, StoreState, StoreCountry, StoreLat, StoreLng) VALUES ('Store 5', '6479162956', 'Lee Centre Dr', 38, 'M1H 3J7', 'Toronto', 'ON', 'Canada', 43.781934, -79.246629);
 
 INSERT INTO shoppingCart.ProductCatalog (`name`, `price`, `image`) VALUES
 ('Intel Core i7-8700K Coffee Lake 6-Core 3.7 GHz', 414.99, 'corei7.jpg'),
