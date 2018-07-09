@@ -2,6 +2,26 @@
     include 'includes/header.html';
     include 'controller/db-connect.php';
     session_start();
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>
 
 <div class="container">
@@ -33,20 +53,95 @@
 	    <div class="stepwizard-row setup-panel">
 	        <div class="stepwizard-step">
 	            <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
-	            <p>Review Order</p>
-	        </div>
-	        <div class="stepwizard-step">
-	            <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
 	            <p>Review Address</p>
 	        </div>
 	        <div class="stepwizard-step">
-	            <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+	            <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
 	            <p>Choose nearest store</p>
+	        </div>
+	        <div class="stepwizard-step">
+	            <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+	            <p>Payment Data</p>
+	        </div>
+	       <div class="stepwizard-step">
+	            <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+	            <p>Review Order</p>
 	        </div>
 	    </div>
 	</div>
+	<?php
+        $discount = 0;
+        if(!empty($_SESSION['id_user'])) {
+        	$currentUser = $_SESSION['id_user'];
+        	$query = "SELECT * FROM Users WHERE UserID = '$currentUser'";
+
+        	$user = mysqli_query($mysqli, $query);
+        	if ($user) {
+        		$row = mysqli_fetch_array($user, MYSQLI_ASSOC);
+				$count = mysqli_num_rows($user);
+				$address = $row['UserStreet'] . ' ,' . $row['UserNumber'] . ' ' . $row['UserCity'];
+
+        	}
+
+        	$query = "SELECT SUM(totalValue) AS totalValueOrdered FROM Sales WHERE customer = '$currentUser'";
+
+        	$totalOrdered = mysqli_query($mysqli, $query);
+        	if ($totalOrdered) {
+        		$row = mysqli_fetch_array($totalOrdered, MYSQLI_ASSOC);
+				$count = mysqli_num_rows($totalOrdered);
+				
+				if($row['totalValueOrdered']) {
+					$discount = $row['totalValueOrdered'] * 0.01;
+				}
+        	}
+        }
+    ?>    
 	<form role="form">
 	    <div class="row setup-content" id="step-1">
+	        <div class="col-xs-12">
+	            <div class="col-md-12">
+	                <h3> Step 1</h3>
+	                <div class="form-group">
+	                    <label class="control-label">Address Name</label>	                    
+		                <?php if ($address): ?>
+						<input maxlength="200" type="text" id="address" required="required" class="form-control" value="<?= $address ?>" />
+						<?php else: ?>
+	                    <input maxlength="200" type="text" id="address" required="required" class="form-control" placeholder="Enter Your Address" />
+						<?php endif ?>
+	                </div>
+
+	                <div id="map"></div>
+	                <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="row setup-content" id="step-2">
+	        <div class="col-xs-12">
+	            <div class="col-md-12">
+	                <h3> Step 2</h3>
+	                <div class="form-group">
+	                    <label class="control-label">Address Name</label>	                    
+		                <?php if ($address): ?>
+						<input maxlength="200" type="text" id="address" required="required" class="form-control" value="<?= $address ?>" />
+						<?php else: ?>
+	                    <input maxlength="200" type="text" id="address" required="required" class="form-control" placeholder="Enter Your Address" />
+						<?php endif ?>
+	                </div>
+
+	                <div id="map"></div>
+	                <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="row setup-content" id="step-3">
+	        <div class="col-xs-12">
+	            <div class="col-md-12">
+	                <h3> Step 3</h3>
+	                <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>	                
+	            </div>
+	        </div>
+	    </div>
+	    <div class="row setup-content" id="step-4">
 	        <div class="col-xs-12">
 	            <div class="col-md-12">
 	                <h3> Review your order</h3>
@@ -60,32 +155,7 @@
 					             <th width="15%">Total</th>  
 					             <th width="5%">Action</th>  
 					        </tr>  
-					        <?php
-					        $discount = 0;
-					        if(!empty($_SESSION['id_user'])) {
-			                	$currentUser = $_SESSION['id_user'];
-			                	$query = "SELECT * FROM Users WHERE UserID = '$currentUser'";
-
-			                	$user = mysqli_query($mysqli, $query);
-			                	if ($user) {
-			                		$row = mysqli_fetch_array($user, MYSQLI_ASSOC);
-									$count = mysqli_num_rows($user);
-									$address = $row['UserStreet'] . ' ,' . $row['UserNumber'] . $row['UserCity'];
-
-			                	}
-
-			                	$query = "SELECT SUM(totalValue) AS totalValueOrdered FROM Sales WHERE customer = '$currentUser'";
-
-			                	$totalOrdered = mysqli_query($mysqli, $query);
-			                	if ($totalOrdered) {
-			                		$row = mysqli_fetch_array($totalOrdered, MYSQLI_ASSOC);
-									$count = mysqli_num_rows($totalOrdered);
-									
-									if($row['totalValueOrdered']) {
-										$discount = $row['totalValueOrdered'] * 0.01;
-									}
-			                	}
-			                }   
+					        <?php   
 
 					        if(!empty($_SESSION['shopping_cart'])):  
 					            
@@ -144,45 +214,19 @@
 					        ?>  
 					        </table>  
 				        </div>
-	                <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+	                <button class="btn btn-success btn-lg pull-right" type="submit">Confirm Order!</button>
 	            </div>
 	        </div>
-	    </div>
-	    <div class="row setup-content" id="step-2">
-	        <div class="col-xs-12">
-	            <div class="col-md-12">
-	                <h3> Step 2</h3>
-	                <div class="form-group">
-	                    <label class="control-label">Address Name</label>	                    
-		                <?php if ($address): ?>
-						<input maxlength="200" type="text" id="address" required="required" class="form-control" value="<?= $address ?>" />
-						<?php else: ?>
-	                    <input maxlength="200" type="text" id="address" required="required" class="form-control" placeholder="Enter Your Address" />
-						<?php endif ?>
-	                </div>
-
-	                <div id="map"></div>
-	                <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
-	            </div>
-	        </div>
-	    </div>
-	    <div class="row setup-content" id="step-3">
-	        <div class="col-xs-12">
-	            <div class="col-md-12">
-	                <h3> Step 3</h3>
-	                <button class="btn btn-success btn-lg pull-right" type="submit">Finish!</button>
-	            </div>
-	        </div>
-	    </div>
+	    </div>	    
 	</form>
 
     </div> 
 <!-- end of content -->
 </div>
 <script src="js/map.js"></script>
-<script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV8OYMPiAXbPAvE9HEkve3-GxZFdmzD84&callback=initMap">
-</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV8OYMPiAXbPAvE9HEkve3-GxZFdmzD84&callback=initMap"
+    async defer></script>
+
 <?php 
     include 'includes/footer.html';
 ?>

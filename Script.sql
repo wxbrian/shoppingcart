@@ -37,7 +37,7 @@ price DOUBLE NOT NULL,
 image CHAR(50) NOT NULL, 
 PRIMARY KEY(id));
 
-CREATE TABLE `shoppingcart`.`sales`
+CREATE TABLE `shoppingcart`.`orders`
 ( `id` INT NOT NULL AUTO_INCREMENT ,
 `totalValue` DOUBLE NOT NULL ,
 `customer` INT NOT NULL,
@@ -46,6 +46,19 @@ PRIMARY KEY (`id`),
 CONSTRAINT FK_PersonOrder FOREIGN KEY (customer)
 REFERENCES Users(UserID)
 );
+
+CREATE TABLE `shoppingcart`.`orderItem`
+( `id` INT NOT NULL AUTO_INCREMENT ,
+`orderId` INT NOT NULL ,
+`productId` INT NOT NULL ,
+`value` DOUBLE NOT NULL ,
+PRIMARY KEY (`id`),
+CONSTRAINT FK_Order FOREIGN KEY (orderId)
+REFERENCES Orders(id),
+CONSTRAINT FK_Product FOREIGN KEY (productId)
+REFERENCES ProductCatalog(id)
+);
+
 
 INSERT INTO shoppingCart.Stores (StoreName, StorePhone, StoreStreet, StoreNumber, StoreZIP, StoreCity, StoreState, StoreCountry) VALUES ('Store 1', '6479162956', 'Champagne Dr', 10, 'M3J 2C6', 'Toronto', 'ON', 'Canada');
 INSERT INTO shoppingCart.Stores (StoreName, StorePhone, StoreStreet, StoreNumber, StoreZIP, StoreCity, StoreState, StoreCountry) VALUES ('Store 2', '6479162956', 'Yonge Street', 920, 'M4W 3C7', 'Toronto', 'ON', 'Canada');
