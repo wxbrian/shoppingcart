@@ -60,12 +60,38 @@
 					             <th width="15%">Total</th>  
 					             <th width="5%">Action</th>  
 					        </tr>  
-					        <?php   
+					        <?php
+					        $discount = 0;
+					        if(!empty($_SESSION['id_user'])) {
+			                	$currentUser = $_SESSION['id_user'];
+			                	$query = "SELECT * FROM Users WHERE UserID = '$currentUser'";
+
+			                	$user = mysqli_query($mysqli, $query);
+			                	if ($user) {
+			                		$row = mysqli_fetch_array($user, MYSQLI_ASSOC);
+									$count = mysqli_num_rows($user);
+									$address = $row['UserStreet'] . ' ,' . $row['UserNumber'] . $row['UserCity'];
+
+			                	}
+
+			                	$query = "SELECT SUM(totalValue) AS totalValueOrdered FROM Sales WHERE customer = '$currentUser'";
+
+			                	$totalOrdered = mysqli_query($mysqli, $query);
+			                	if ($totalOrdered) {
+			                		$row = mysqli_fetch_array($totalOrdered, MYSQLI_ASSOC);
+									$count = mysqli_num_rows($totalOrdered);
+									
+									if($row['totalValueOrdered']) {
+										$discount = $row['totalValueOrdered'] * 0.01;
+									}
+			                	}
+			                }   
+
 					        if(!empty($_SESSION['shopping_cart'])):  
 					            
-					             $total = 0;  
+					            $total = 0;  
 					        
-					             foreach($_SESSION['shopping_cart'] as $key => $product): 
+					            foreach($_SESSION['shopping_cart'] as $key => $product): 
 					        ?>  
 					        <tr>  
 					           <td><?php echo $product['name']; ?></td>  
@@ -79,14 +105,30 @@
 					           </td>  
 					        </tr>  
 					        <?php  
-					                  $total = $total + ($product['quantity'] * $product['price']);  
-					             endforeach;  
+
+				                	$total = $total + ($product['quantity'] * $product['price']);				                    
+					            endforeach; 
+
+				                if ($discount && $discount > $total * 0.15) {
+			                    	$totalWithDiscount = $total - $total * 0.15;
+			                    } else {
+			                    	$totalWithDiscount = $total - $discount;
+			                    }  
 					        ?>  
 					        <tr>  
 					             <td colspan="3" align="right">Total</td>  
 					             <td align="right">$ <?php echo number_format($total, 2); ?></td>  
 					             <td></td>  
 					        </tr>  
+
+					        <?php if ($totalWithDiscount): ?>
+					       	<tr>  
+					             <td colspan="3" align="right">With your discount</td>  
+					             <td align="right">$ <?php echo number_format($totalWithDiscount, 2); ?></td>  
+					             <td></td>  
+					        </tr>
+							<?php endif ?>
+
 					        <tr>
 					            <!-- Show checkout button only if the shopping cart is not empty -->
 					            <td colspan="5">
@@ -111,9 +153,14 @@
 	            <div class="col-md-12">
 	                <h3> Step 2</h3>
 	                <div class="form-group">
-	                    <label class="control-label">Address Name</label>
-	                    <input maxlength="200" type="text" id="address" required="required" class="form-control" placeholder="Enter Company Name" />
+	                    <label class="control-label">Address Name</label>	                    
+		                <?php if ($address): ?>
+						<input maxlength="200" type="text" id="address" required="required" class="form-control" value="<?= $address ?>" />
+						<?php else: ?>
+	                    <input maxlength="200" type="text" id="address" required="required" class="form-control" placeholder="Enter Your Address" />
+						<?php endif ?>
 	                </div>
+
 	                <div id="map"></div>
 	                <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
 	            </div>

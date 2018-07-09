@@ -21,6 +21,8 @@
 
 				if (password_verify($userpassword, $row['UserPassword'])) {
 				     $_SESSION['login_user'] = $loginUser;
+				     $_SESSION['id_user'] = $row['UserID'];
+
 		         	header("location: cart.php");
 				} else {
 				    $msg = mysqli_error($mysqli);
